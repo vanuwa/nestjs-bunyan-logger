@@ -5,9 +5,10 @@ import { BunyanLoggerModule } from './logger/bunyan-logger.module';
 import { IntegrationPlatformModule } from './integration-platform/integration-platform.module';
 import { AuthModule } from './auth/auth.module';
 import { MarketplaceModule } from './marketplace/marketplace.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [BunyanLoggerModule, IntegrationPlatformModule, AuthModule, MarketplaceModule],
+  imports: [BunyanLoggerModule, IntegrationPlatformModule, AuthModule, MarketplaceModule, UsersModule],
   controllers: [AppController],
   providers: [AppService]
 })
