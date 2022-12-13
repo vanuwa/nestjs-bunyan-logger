@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BunyanLoggerService } from '../logger/bunyan-logger.service';
 import Axios, { AxiosInstance } from 'axios';
 import { UsersService } from '../users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 const BASE_URL = 'https://api.test.com';
 
@@ -10,7 +11,7 @@ export class AuthService {
   private readonly logger = BunyanLoggerService.createLogger(AuthService.name);
   private readonly httpClient: AxiosInstance;
 
-  constructor(private usersService: UsersService) {
+  constructor(private usersService: UsersService, private jwtService: JwtService) {
     this.httpClient = Axios.create({
       baseURL: BASE_URL,
       responseType: 'json'
@@ -28,6 +29,14 @@ export class AuthService {
     }
 
     return null;
+  }
+
+  async login(user: any) {
+    const payload = { username: user.username, sub: user.userId };
+
+    return {
+      access_token: this.jwtService.sign(payload)
+    };
   }
 
   async validateMarketplaceUser(username: string, password: string): Promise<any> {
